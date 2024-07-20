@@ -1,0 +1,49 @@
+import tkinter as tk
+from tkinter import messagebox
+import random
+
+class PogiApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Pogi ba si Rjhay?")
+        
+        # Create and configure main label
+        self.label = tk.Label(root, text="Pogi ba si Rjhay?", font=("Helvetica", 24))
+        self.label.pack(pady=20)
+        
+        # Initialize variables
+        self.no_click_count = 0
+        self.yes_buttons = []  # List to keep track of Yes buttons
+
+        # Create No button
+        self.no_button = tk.Button(root, text="hinde", command=self.no_clicked)
+        self.no_button.pack(side=tk.RIGHT, padx=20)
+
+        # Create Yes button
+        self.yes_button = tk.Button(root, text="oo", command=self.yes_clicked)
+        self.yes_button.pack(side=tk.LEFT, padx=20)
+
+    def yes_clicked(self):
+        messagebox.showinfo("Notification", "Tama ang galing")
+
+    def no_clicked(self):
+        # Increment No button click count
+        self.no_click_count += 1
+        
+        if self.no_click_count >= 10:
+            self.no_button.pack_forget()
+        else:
+            # Create new Yes button at a random position
+            x = random.randint(0, self.root.winfo_width() - 100)  # 100 is the width of the button
+            y = random.randint(0, self.root.winfo_height() - 50)  # 50 is the height of the button
+            new_yes_button = tk.Button(self.root, text="oo", command=self.yes_clicked)
+            new_yes_button.place(x=x, y=y)
+            self.yes_buttons.append(new_yes_button)
+
+# Create the main window
+root = tk.Tk()
+root.geometry("500x400")  # Set the size of the window
+app = PogiApp(root)
+
+# Run the application
+root.mainloop()
